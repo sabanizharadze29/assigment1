@@ -33,8 +33,8 @@ namespace assignment1.Services
 
             if (product == null)
             {
-                Console.WriteLine($"Product with ID {productId} not found.");
-                return;
+                throw new ProductOperationException($"product was not found on given id:{productId}");
+
             }
             if (product.AvailableQuantity < 50)
             {

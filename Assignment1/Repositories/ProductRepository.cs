@@ -42,6 +42,10 @@ namespace assignment1.Repositories
         public void Delete(int id)
         {
             var product = _products.FirstOrDefault(product => product.Id == id);
+            if (product == null)
+            {
+                throw new ProductOperationException($"Product with ID {id} not found.");
+            }
             _products.Remove(product);
         }
         public IEnumerable<Product> GetAll()
@@ -51,6 +55,10 @@ namespace assignment1.Repositories
         public Product GetById(int id)
         {
             var product = _products.FirstOrDefault(product => product.Id == id);
+            if (product == null)
+            {
+                throw new ProductOperationException($"Product with ID {id} not found.");
+            }
             return product;
         }
         public Product Update(Product item)
