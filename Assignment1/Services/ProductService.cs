@@ -13,7 +13,6 @@ namespace assignment1.Services
         private readonly ICategoryRepository _categoryRepository;
         public ProductService(IProductRepository productRepository, ICategoryRepository categoryRepository)
         {
-
             _productRepository = productRepository;
             _categoryRepository = categoryRepository;
         }
@@ -36,21 +35,18 @@ namespace assignment1.Services
                 Console.WriteLine($"Product with ID {productId} not found.");
                 return;
             }
-            // 50% off
             if (product.AvailableQuantity < 50)
             {
                 product.Price *= 0.5m;
                 _productRepository.Update(product);
                 Console.WriteLine($"Price of {product.Name} reduced by 50% to {product.Price}.");
             }
-            // 20% off
             if (product.AvailableQuantity < 150)
             {
                 product.Price *= 0.8m;
                 _productRepository.Update(product);
                 Console.WriteLine($"Price of {product.Name} reduced by 20% to {product.Price}.");
             }
-            // 10% off
             if (product.AvailableQuantity < 400)
             {
                 product.Price *= 0.9m;
@@ -63,12 +59,9 @@ namespace assignment1.Services
             }
         }
 
-
-
         public IEnumerable<Product> GetAllProducts()
         {
             return _productRepository.GetAll();
-
         }
 
         public Product GetProductById(int id)
@@ -81,33 +74,27 @@ namespace assignment1.Services
             return _productRepository.GetAll().Where(product => product.Category.Id == category.Id);
         }
 
-        // ASSUME I BUY SOMETHING AND IT SHOULD UPDATE PRODUCT QUANTITY
         public Product SellProductInfo(int productId, int quantity)
         {
             var product = _productRepository.GetById(productId);
-
             if (product == null)
             {
                 Console.WriteLine($"Product with ID {productId} not found.");
                 return null;
             }
-
             if (quantity <= 0)
             {
                 Console.WriteLine("Quantity should be greater than zero.");
                 return null;
             }
-
             if (quantity > product.AvailableQuantity)
             {
                 Console.WriteLine($"Not enough quantity available. Available quantity: {product.AvailableQuantity}");
                 return null;
             }
-
             var oldQuantity = product.AvailableQuantity;
             product.AvailableQuantity -= quantity;
             _productRepository.Update(product);
-
             Console.WriteLine($"Sold {quantity} units of {product.Name}.Was:{oldQuantity} Now New available quantity Is: {product.AvailableQuantity}");
             return product;
         }

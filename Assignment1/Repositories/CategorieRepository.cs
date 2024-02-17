@@ -15,45 +15,47 @@ namespace assignment1.Repositories
             new Category {Id = 3, Name = "Book"},
             new Category {Id = 4, Name = "Travel"}
         };
-
         public void Add(Category item)
         {
-
             _categories.Add(item);
         }
-
         public void Delete(int id)
         {
-
             var categoryToRemove = _categories.FirstOrDefault(c => c.Id == id);
             if (categoryToRemove != null)
             {
                 _categories.Remove(categoryToRemove);
             }
+            else
+            {
+                throw new ArgumentException("Category not found", nameof(id));
+            }
         }
-
         public IEnumerable<Category> GetAll()
         {
-
             return _categories;
         }
-
         public Category GetById(int id)
         {
-
-            return _categories.FirstOrDefault(c => c.Id == id);
+            var category = _categories.FirstOrDefault(c => c.Id == id);
+            if (category == null)
+            {
+                throw new ArgumentException("Category not found", nameof(id));
+            }
+            return category;
         }
-
         public Category Update(Category item)
         {
-
             var categoryToUpdate = _categories.FirstOrDefault(c => c.Id == item.Id);
             if (categoryToUpdate != null)
             {
                 categoryToUpdate.Name = item.Name;
                 return categoryToUpdate;
             }
-            return null;
+            else
+            {
+                throw new ArgumentException("Category not found", nameof(item));
+            }
         }
     }
 }
