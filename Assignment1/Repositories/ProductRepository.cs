@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using assignment1.Interfaces;
 using assignment1.Models;
+using Assignment1.CustomExceptions;
 
 namespace assignment1.Repositories
 {
@@ -64,7 +65,7 @@ namespace assignment1.Repositories
                 product.Category = _categoryRepository.GetById(item.Id);
                 return product;
             }
-            throw new ArgumentException("Product not found", nameof(item));
+            throw new ProductOperationException($"Product with ID {item.Id} not found.");
         }
     }
 }

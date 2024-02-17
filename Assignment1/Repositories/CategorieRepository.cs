@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using assignment1.Interfaces;
 using assignment1.Models;
+using Assignment1.CustomExceptions;
 
 namespace assignment1.Repositories
 {
@@ -28,7 +29,7 @@ namespace assignment1.Repositories
             }
             else
             {
-                throw new ArgumentException("Category not found", nameof(id));
+                throw new ProductOperationException($"Category with ID {id} not found.");
             }
         }
         public IEnumerable<Category> GetAll()
@@ -40,7 +41,7 @@ namespace assignment1.Repositories
             var category = _categories.FirstOrDefault(c => c.Id == id);
             if (category == null)
             {
-                throw new ArgumentException("Category not found", nameof(id));
+                throw new ProductOperationException($"Category with ID {id} not found.");
             }
             return category;
         }
@@ -54,7 +55,7 @@ namespace assignment1.Repositories
             }
             else
             {
-                throw new ArgumentException("Category not found", nameof(item));
+                throw new ProductOperationException($"Category with ID {item.Id} not found.");
             }
         }
     }

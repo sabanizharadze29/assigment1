@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using assignment1.Interfaces;
 using assignment1.Models;
+using Assignment1.CustomExceptions;
 
 namespace assignment1.Services
 {
@@ -79,18 +80,15 @@ namespace assignment1.Services
             var product = _productRepository.GetById(productId);
             if (product == null)
             {
-                Console.WriteLine($"Product with ID {productId} not found.");
-                return null;
+                throw new ProductOperationException($"Product with ID {productId} not found.");
             }
             if (quantity <= 0)
             {
-                Console.WriteLine("Quantity should be greater than zero.");
-                return null;
+                throw new ProductOperationException("Quantity should be greater than zero.");
             }
             if (quantity > product.AvailableQuantity)
             {
-                Console.WriteLine($"Not enough quantity available. Available quantity: {product.AvailableQuantity}");
-                return null;
+                throw new ProductOperationException($"Not enough quantity available. Available quantity: {product.AvailableQuantity}");
             }
             var oldQuantity = product.AvailableQuantity;
             product.AvailableQuantity -= quantity;

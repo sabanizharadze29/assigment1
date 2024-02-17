@@ -11,6 +11,7 @@
     <None Remove="Repositories\" />
     <None Remove="Services\" />
     <None Remove="Interfaces\shared\" />
+    <None Remove="CustomExceptions\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
@@ -18,5 +19,6 @@
     <Folder Include="Repositories\" />
     <Folder Include="Services\" />
     <Folder Include="Interfaces\shared\" />
+    <Folder Include="CustomExceptions\" />
   </ItemGroup>
 </Project>
