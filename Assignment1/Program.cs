@@ -14,17 +14,36 @@ namespace assignment1
             ICategoryRepository categoryRepository = new CategoryRepository();
             IProductRepository productRepository = new ProductRepository(categoryRepository);
             IProductService productService = new ProductService(productRepository, categoryRepository);
-            ProductLogger.GetAndPrintAllProducts(productService);
-            ProductLogger.PrintProductById(productService, 1);
-            ProductLogger.PrintAddedProduct(productService, new Product { Id = 12, Name = "Apple", Price = 1.2m, Description = "Fresh apple", Category = categoryRepository.GetById(1), AvailableQuantity = 21 });
-            ProductLogger.PrintDeleteProduct(productService, 1);
-            ProductLogger.PrintUpdatedProduct(productService, 3);
-            Category category = categoryRepository.GetById(2);
-            ProductLogger.PrintAndGetProductsByCategory(productService, category);
-            productService.ForSale(2);
-            Product soldProduct = productService.SellProductInfo(2, 30);
-            System.Console.WriteLine("\nResult:");
-            ProductLogger.GetAndPrintAllProducts(productService);
+            try
+            {
+                productService.GetAllProducts();
+
+                productService.GetProductById(1);
+
+                productService.AddProduct(new Product { Id = 12, Name = "Apple", Price = 1.2m, Description = "Fresh apple", Category = categoryRepository.GetById(1), AvailableQuantity = 21 });
+
+                productService.DeleteProduct(1);
+
+                var updatedProduct = new Product { Id = 3, Name = "Updated Name", Price = 2.5m, Description = "Updated description", AvailableQuantity = 10, Category = categoryRepository.GetById(2) };
+                productService.UpdateProduct(updatedProduct);
+
+                var category = categoryRepository.GetById(2);
+                productService.GetProductsByCategory(category);
+
+                productService.SellProductInfo(2, 30);
+
+            }
+            catch (Exception ex)
+            {
+                LogError(ex.Message);
+            }
+        }
+
+        private static void LogError(string message)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(message);
+            Console.ResetColor();
         }
     }
 }
